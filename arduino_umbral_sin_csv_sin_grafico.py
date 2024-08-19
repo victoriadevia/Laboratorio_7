@@ -1,5 +1,6 @@
 import serial
 from datetime import datetime, timedelta
+import time
 
 # Configura el puerto serie. Asegúrate de que el nombre del puerto es el correcto.
 ser = serial.Serial('COM6', 9600, timeout=1)
@@ -18,13 +19,14 @@ try:
             # Divide la línea en dos variables
             variables = line.split(',')
             if len(variables) == 2:
-                # Convierte las variables a los tipos adecuados
+                # Conviertelas variables a los tipos adecuados
                 sensorValue = int(variables[0])
                 ledState = int(variables[1])
 
                 # Comprobar si el valor del sensor cruza el umbral en cualquier dirección
                 if sensorValue < umbral_sensor and not umbral_alcanzado:
-                    print("Sensor comenzó a medir")
+                    print("Sensor comenzó a medir", time.time())
+                    time.sleep(5)
                     umbral_alcanzado = True
                 elif sensorValue >= umbral_sensor and umbral_alcanzado:
                     umbral_alcanzado = False
